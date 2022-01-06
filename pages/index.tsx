@@ -1,5 +1,5 @@
 import * as CSS from "csstype"
-import { Box, Button, Flex, Text, Heading, VStack, HStack, Spacer, SimpleGrid, Center, ColorModeScript } from '@chakra-ui/react'
+import { Box, Button, Flex, Text, Heading, VStack, HStack, Spacer, SimpleGrid, Center } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Icon } from '@iconify/react';
@@ -7,7 +7,6 @@ import { Section, SectionCard } from "../components/section";
 import ProTag from "../components/pro_tag";
 import { Image, OutlinedImage } from "../components/image";
 import NavBar from "../components/navbar";
-import theme from "../styles/theme";
 
 const Home: NextPage = () => (
   <>
@@ -17,27 +16,25 @@ const Home: NextPage = () => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <body>
-      <NavBar />
+    <NavBar />
 
-      <main>
-        <Center>
-          <VStack spacing={{ base: "4.75rem", lg: "8.75rem" }} maxWidth="68.688rem" margin="0 2rem">
-            <Landing />
+    <main>
+      <Center>
+        <VStack spacing={{ base: "4.75rem", lg: "8.75rem" }} maxWidth="68.688rem" margin="0 2rem">
+          <Landing />
 
-            <Statistics />
+          <Statistics />
 
-            <Zalets />
+          <Zalets />
 
-            <Features />
+          <Features />
 
-            <Downloads />
+          <Downloads />
 
-            <Box height="100vh" />
-          </VStack>
-        </Center>
-      </main>
-    </body>
+          <Box height="100vh" />
+        </VStack>
+      </Center>
+    </main>
   </>
 )
 
@@ -50,7 +47,26 @@ const Landing = () => (
     margin="0 3rem 0 3rem"
     minHeight="calc(100vh - 8rem)"
   >
-    <Box maxWidth={600} marginBottom={10}>
+    <video src="fragalnia.mp4" autoPlay muted loop style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      objectFit: "cover",
+      zIndex: "-1",
+    }} />
+    <Box
+      width="100vw"
+      height="100vh"
+      position="absolute"
+      top="0"
+      left="0"
+      zIndex="-1"
+      background="linear-gradient(180deg, rgba(21, 21, 23, 0) 71.23%, #151517 79.44%),
+      linear-gradient(0deg, rgba(21, 21, 23, 0.95), rgba(21, 21, 23, 0.95))"
+    />
+    <Box maxWidth={600} marginBottom={10} zIndex="1">
       <Box marginBottom={5} maxWidth={500} marginRight={{ base: "0", xl: "5rem" }}>
         <Heading fontSize={{ base: "2rem", md: "2.6rem" }}>
           Przyjazny autoclicker,<br />
@@ -65,7 +81,7 @@ const Landing = () => (
       <Button width={180}>Buy kup teraz</Button>
     </Box>
 
-    <OutlinedImage src="/home_cropped.png" alt="Strona Główna BuzkaaClickera" width="416px" height="556px" />
+    <OutlinedImage src="/home_cropped.png" alt="Strona Główna BuzkaaClickera" width="416px" height="556px" zIndex="10" />
   </Flex>
 )
 

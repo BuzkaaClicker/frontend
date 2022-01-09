@@ -1,14 +1,14 @@
 import * as CSS from "csstype"
-import { Box, Button, Flex, Text, Heading, VStack, HStack, Spacer, SimpleGrid, Center } from '@chakra-ui/react'
+import { Box, Button, Flex, Text, Heading, VStack, HStack, Spacer, SimpleGrid, Center, Image } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Icon } from '@iconify/react';
 import { Section, SectionCard } from "../components/section";
 import ProTag from "../components/pro_tag";
-import { Image, OutlinedImage } from "../components/image";
+import { Image as NextImage, OutlinedImage } from "../components/image";
 import NavBar from "../components/navbar";
-import theme from "../styles/theme";
 import Footer from "../components/footer";
+import { BrowserView, isMobile } from "react-device-detect";
 
 const Home: NextPage = () => (
   <>
@@ -23,7 +23,7 @@ const Home: NextPage = () => (
     <main>
       <Center>
         <VStack spacing={{ base: "4.75rem", lg: "8.75rem" }} maxWidth="68.688rem" margin="0 2rem">
-          <Landing />
+          <Hero />
 
           <Statistics />
 
@@ -40,31 +40,40 @@ const Home: NextPage = () => (
   </>
 )
 
-const Landing = () => (
-  <Flex
-    align="center"
-    direction={{ base: "column", xl: "row" }}
-    textAlign={{ base: "center", xl: "left" }}
-    justifyContent={"center"}
-    margin="0 3rem 0 3rem"
-    minHeight="calc(100vh - 8rem)"
-  >
-    <video src="fragalnia.mp4" autoPlay muted loop style={{
+// Play hero video background only if page is viewed on desktop computer.
+// Do not waste mobile users' transfers.
+const HeroVideo = () => {
+  if (isMobile) {
+    return <Box />
+  } else {
+    return <video src="fragalnia.mp4" autoPlay muted loop playsInline style={{
       position: "absolute",
       top: 0,
       left: 0,
       width: "100vw",
       height: "calc(100vh + 10rem)",
       objectFit: "cover",
-      zIndex: "-1",
     }} />
+  }
+}
+
+const Hero = () => (
+  <Flex
+    align="center"
+    direction={{ base: "column", xl: "row" }}
+    textAlign={{ base: "center", xl: "left" }}
+    justifyContent={"center"}
+    margin="0 3rem 0 3rem"
+    paddingBottom="8rem"
+    minHeight="calc(100vh + 1rem)"
+  >
+    <HeroVideo />
     <Box
       width="100vw"
       height="calc(100vh + 10rem)"
       position="absolute"
       top="0"
       left="0"
-      zIndex="-1"
       background="linear-gradient(180deg, #151517 -13.41%, rgba(21, 21, 23, 0) 48.57%, #151517 90.98%),
         linear-gradient(0deg, rgba(21, 21, 23, 0.95), rgba(21, 21, 23, 0.95))"
     />
@@ -83,17 +92,14 @@ const Landing = () => (
       <Button width={180}>Zdobądź teraz</Button>
     </Box>
 
-    <Box
-      height="558px"
+    <Image
+      src="/home_cropped.png" alt="Strona Główna BuzkaaClickera"
+      width="420px"
       border="1px solid rgba(255, 255, 255, 0.05)"
-      filter="drop-shadow(10px 10px 0px rgba(255, 255, 255, 0.02))"
+      boxShadow="10px 10px 0px rgba(255, 255, 255, 0.02)"
       zIndex="10"
-    >
-      <Image
-        src="/home_cropped.png" alt="Strona Główna BuzkaaClickera"
-        width="420px" height="556px"
-      />
-    </Box>
+      display="block"
+    />
   </Flex>
 )
 
@@ -229,7 +235,7 @@ const Downloads = () => (
       gap={{ base: "1rem", lg: "5rem" }}
       marginBottom="3.125rem"
     >
-      <Image src="/download_preview.svg" width="638px" height="368px" />
+      <NextImage src="/download_preview.svg" width="638px" height="368px" />
       <VStack spacing="2rem" alignItems={{ base: "center", lg: "start" }}>
         <DownloadVersion
           title="BuzkaaClicker"
@@ -277,7 +283,7 @@ const DownloadTutorial = () => (
     </Heading>
 
     <SectionCard minHeight="1rem">
-      <Image src="/download_tutorial_mock.png" width="999" height="588" />
+      <NextImage src="/download_tutorial_mock.png" width="999" height="588" />
     </SectionCard>
   </>
 )

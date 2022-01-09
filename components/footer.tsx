@@ -51,7 +51,7 @@ const Footer = () => (
     >
         {
             COLUMNS.map(column => (
-                <Column {...column} />
+                <Column key={column.title} {...column} />
             ))
         }
     </SimpleGrid>
@@ -71,7 +71,7 @@ const Column = ({ title, links }: ColumnProps) => (
     <VStack alignItems="start">
         <Heading fontSize="1.5rem">{title}</Heading>
         {links.map(link => (
-            <Link href={link.href} color="#aaaaaa" fontSize="1.25rem">{link.title}</Link>
+            <Link key={link.title} href={link.href} color="#aaaaaa" fontSize="1.25rem">{link.title}</Link>
         ))}
     </VStack>
 )

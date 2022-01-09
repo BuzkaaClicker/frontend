@@ -43,10 +43,15 @@ const COLUMNS: ColumnProps[] = [
 ]
 
 const Footer = () => (
-    <SimpleGrid columns={{base: 1, sm: 2, md: 3}} spacingY="2rem" width="100%">
+    <SimpleGrid
+        columns={{ base: 1, sm: 2, md: 3 }}
+        spacingY="2rem"
+        width="100%"
+        paddingBottom="5rem"
+    >
         {
             COLUMNS.map(column => (
-              <Column {...column} />  
+                <Column {...column} />
             ))
         }
     </SimpleGrid>

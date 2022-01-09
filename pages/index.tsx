@@ -7,6 +7,8 @@ import { Section, SectionCard } from "../components/section";
 import ProTag from "../components/pro_tag";
 import { Image, OutlinedImage } from "../components/image";
 import NavBar from "../components/navbar";
+import theme from "../styles/theme";
+import Footer from "../components/footer";
 
 const Home: NextPage = () => (
   <>
@@ -31,7 +33,7 @@ const Home: NextPage = () => (
 
           <Downloads />
 
-          <Box height="100vh" />
+          <Footer />
         </VStack>
       </Center>
     </main>
@@ -52,19 +54,19 @@ const Landing = () => (
       top: 0,
       left: 0,
       width: "100vw",
-      height: "100vh",
+      height: "calc(100vh + 10rem)",
       objectFit: "cover",
       zIndex: "-1",
     }} />
     <Box
       width="100vw"
-      height="100vh"
+      height="calc(100vh + 10rem)"
       position="absolute"
       top="0"
       left="0"
       zIndex="-1"
-      background="linear-gradient(180deg, rgba(21, 21, 23, 0) 71.23%, #151517 79.44%),
-      linear-gradient(0deg, rgba(21, 21, 23, 0.95), rgba(21, 21, 23, 0.95))"
+      background="linear-gradient(180deg, #151517 -13.41%, rgba(21, 21, 23, 0) 48.57%, #151517 90.98%),
+        linear-gradient(0deg, rgba(21, 21, 23, 0.95), rgba(21, 21, 23, 0.95))"
     />
     <Box maxWidth={600} marginBottom={10} zIndex="1">
       <Box marginBottom={5} maxWidth={500} marginRight={{ base: "0", xl: "5rem" }}>
@@ -78,10 +80,20 @@ const Landing = () => (
         </Text>
       </Box>
 
-      <Button width={180}>Buy kup teraz</Button>
+      <Button width={180}>Zdobądź teraz</Button>
     </Box>
 
-    <OutlinedImage src="/home_cropped.png" alt="Strona Główna BuzkaaClickera" width="416px" height="556px" zIndex="10" />
+    <Box
+      height="558px"
+      border="1px solid rgba(255, 255, 255, 0.05)"
+      filter="drop-shadow(10px 10px 0px rgba(255, 255, 255, 0.02))"
+      zIndex="10"
+    >
+      <Image
+        src="/home_cropped.png" alt="Strona Główna BuzkaaClickera"
+        width="420px" height="556px"
+      />
+    </Box>
   </Flex>
 )
 

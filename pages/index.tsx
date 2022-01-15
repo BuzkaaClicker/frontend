@@ -124,9 +124,7 @@ const Statistics = () => (
   </VStack>
 )
 
-type StatisticEntryProps = { textColor: CSS.Property.Color; }
-
-const StatisticEntry: React.FC<StatisticEntryProps> = ({ textColor }) => (
+const StatisticEntry = ({ textColor }: { textColor: CSS.Property.Color; }) => (
   <Box align="center" m="1rem 3rem">
     <Text fontSize="2.25rem"
       fontWeight={800}
@@ -134,7 +132,9 @@ const StatisticEntry: React.FC<StatisticEntryProps> = ({ textColor }) => (
       backgroundClip="text">
       75683
     </Text>
-    <Text fontSize="18px" color="#DFDFDF">osób uruchomiło <Text fontWeight={700} color={"#fff"}>BuzkaaClicker</Text> w ostatnich 30 dniach</Text>
+    <Text fontSize="18px" color="#DFDFDF">osób uruchomiło</Text>
+    <Text fontWeight={700} color={"#fff"}>BuzkaaClicker</Text>
+    <Text fontSize="18px" color="#DFDFDF">w ostatnich 30 dniach</Text>
   </Box>
 );
 

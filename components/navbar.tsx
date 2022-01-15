@@ -5,7 +5,7 @@ import {
     Menu, MenuButton, MenuItem, MenuList, Spacer,
 } from "@chakra-ui/react";
 
-const LOGIN_DISCORD_URL = "/api/auth/discord"
+const LOGIN_DISCORD_URL = "/auth/discord"
 
 type NavItem = {
     title: string;

@@ -16,7 +16,6 @@ const Home: NextPage = () => (
     <Head>
       <title>Strona Główna - BuzkaaClicker.pl</title>
       <meta name="description" content="Strona główna" />
-      <link rel="icon" href="/static/favicon.ico" />
     </Head>
 
     <NavBar />

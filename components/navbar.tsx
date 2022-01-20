@@ -103,7 +103,9 @@ const MobileNavBar = ({ profile }: { profile: Profile | null | undefined }) => (
             <MenuList borderWidth="0">
                 {NAV_ITEMS.map(item => (<MobileNavBarItem key={item.title} {...item} />))}
 
-                <MobileNavBarItem display={{ base: "flex", md: "none" }} title="Zaloguj się przez Discord"
+                <MobileNavBarItem
+                    display={{ base: profile == null ? "flex" : "none", md: "none" }}
+                    title="Zaloguj się przez Discord"
                     href={LOGIN_DISCORD_URL} />
             </MenuList>
         </Menu>
@@ -199,6 +201,10 @@ const LoggedInUser = ({ profile }: { profile: Profile }) => {
             </MenuButton>
 
             <MenuList borderWidth="0" minW="0" justifyContent="end">
+                <MobileNavBarItem
+                    title="Ustawienia"
+                    href="/settings"
+                />
                 <MobileNavBarItem
                     title="Wyloguj się"
                     href="/auth/logout"

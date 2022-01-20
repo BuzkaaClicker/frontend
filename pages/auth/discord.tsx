@@ -106,6 +106,8 @@ const AuthError = ({ err, onRetry }: { err: any, onRetry: () => void }) => {
                 case "invalid code": return "Nieprawidłowy kod"
                 case "missing email": return "Nie uzyskano dostępu do e-mail. " +
                     "Przypisz e-mail do konta discord, zweryfikuj go i spróbuj ponownie."
+                case "discord guild join unauthorized": return "Brak dostępu do dołączenia do serwera discord! " +
+                    "Jest to wymagane dlatego, że jest to nasz preferowany środek komunikacji z klientami."
                 default: return err.response.data.error_message
             }
         })()

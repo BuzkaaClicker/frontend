@@ -1,10 +1,17 @@
 import { NextPage } from "next"
-import { Center, Link, Progress, Text, VStack } from '@chakra-ui/react'
+import { Link, Progress, Text, VStack } from '@chakra-ui/react'
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect, useState } from "react"
-import { getAuthUrl, Session, setSession } from "../../lib/session"
-import api from "../../lib/client"
+import { getAuthUrl, getSession, login, Session, setCurrentSession } from "../../lib/auth"
+import { FullScreenDialog } from "../../components/dialog"
+
+// login flow:
+// 1. naviagte to /auth/discord
+// 2. navigate to discord oauth page (from "/api/auth/discord" url)
+// 3. discord oauth redirects back to "/auth/discord" but with "code" param
+// 4. try register/login by sending discord access "code" to the /api/auth/discord via post json
+// 5. handle response (2xx status - succes -> redirect to home page after 2 seconds of login success message) 
 
 type State =
     | { type: "dismounted" }
@@ -28,7 +35,7 @@ const DiscordAuth: NextPage = () => {
         setState({ type: "authorizing" })
         login(code)
             .then(session => {
-                setSession(session)
+                setCurrentSession(session)
                 setState({ type: "auth_success", session: session })
                 setTimeout(() => window.location.href = "/", 2000)
             })
@@ -36,14 +43,21 @@ const DiscordAuth: NextPage = () => {
     }
 
     useEffect(() => {
-        if (!isReady || state.type != "dismounted") {
-            return
-        }
-        const code = query["code"]?.toString()
-        if (code == null || code == "") {
-            redirectToOAuth()
-        } else {
-            authorize(code)
+        let session = getSession()
+        if (session) { // if already authenticated
+            window.location.href = "/" // redirect to home page
+        } else if (isReady && state.type == "dismounted") { // if router is ready && page is in right state
+            const code = query["code"]?.toString()
+            if (code == null || code == "") {
+                const discordError = query["error"]?.toString()
+                if (discordError == null || discordError == "") {
+                    redirectToOAuth()
+                } else {
+                    setState({ type: "failure", error: { type: "discord_error", code: discordError } })
+                }
+            } else {
+                authorize(code)
+            }
         }
     }, [isReady])
 
@@ -54,28 +68,13 @@ const DiscordAuth: NextPage = () => {
             </Head>
 
             <main>
-                <Center minHeight="100vh">
-                    <VStack
-                        padding="3rem"
-                        background="#0A0A0A"
-                        borderRadius="8px"
-                    >
-                        <Text fontSize="1.5rem">Logowanie</Text>
-
-                        {render(state, redirectToOAuth)}
-                    </VStack>
-                </Center>
+                <FullScreenDialog title="Logowanie">
+                    {render(state, redirectToOAuth)}
+                </FullScreenDialog>
             </main>
         </>
     )
 }
-
-const login = (code: string) => api
-    .post<Session>("/auth/discord", {
-        "code": code,
-    })
-    .then(response => response.data)
-
 
 function render(state: State, onReload: () => void): ReactElement {
     switch (state.type) {
@@ -107,6 +106,7 @@ const AuthError = ({ err, onRetry }: { err: any, onRetry: () => void }) => {
                 case "invalid code": return "Nieprawidłowy kod"
                 case "missing email": return "Nie uzyskano dostępu do e-mail. " +
                     "Przypisz e-mail do konta discord, zweryfikuj go i spróbuj ponownie."
+                default: return err.response.data.error_message
             }
         })()
         return (
@@ -115,10 +115,25 @@ const AuthError = ({ err, onRetry }: { err: any, onRetry: () => void }) => {
                 {retryLink}
             </VStack>
         )
+    } else if (err.type == "discord_error") {
+        const translated = (() => {
+            switch (err.code) {
+                case "access_denied": return "Odrzuciłeś/aś autoryzację konta discord."
+            }
+        })()
+        if (translated == null) {
+            console.log("Unknown discord error: " + err.code + ` (${JSON.stringify(err)})`)
+        }
+        return (
+            <VStack>
+                <Text>{translated || "Wystąpił nieznany błąd podczas autoryzacji konta discord."}</Text>
+                {retryLink}
+            </VStack>
+        )
     } else {
         return (
             <VStack>
-                <Text>Wystąpił nieznany błąd: {JSON.stringify(err)}</Text>
+                <Text>Wystąpił nieznany błąd: {err?.message}</Text>
                 {retryLink}
             </VStack>
         )

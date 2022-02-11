@@ -1,13 +1,40 @@
+import { useEffect, useState } from "react"
 import client from "./client"
 
+export const authenticatedFetcher = (url: string) =>
+    client
+        .get(url, {
+            headers: {
+                "Authorization": `Bearer ${getSession()?.accessToken}`,
+            }
+        })
+        .then(res => res.data)
+
 export type Session = {
+    id: string;
     userId: number;
     accessToken: string;
     // unix time (seconds)
     expiresAt: number;
 }
 
+// Represents session info without authorization token.
+// Used in session list.
+export type SessionMeta = {
+    id: string;
+    ip: string;
+    userAgent: string;
+    lastAccessedAt: number;
+}
+
 let session: Session | null = null
+
+export const useSession = () => {
+    // todo
+    const [session, setSession] = useState<Session | null>()
+    useEffect(() => setSession(getSession()), [])
+    return session
+}
 
 export function getSession(): Session | null {
     if (session != null) {
@@ -43,13 +70,12 @@ function removeSessionFromStorage() {
     localStorage.removeItem("session")
 }
 
-export function getAuthUrl(): Promise<string> {
+export async function getAuthUrl(): Promise<string> {
     type AuthUrlResponse = {
         url: string
     }
-    return client
-        .get<AuthUrlResponse>("/auth/discord")
-        .then(r => r.data.url)
+    const r = await client.get<AuthUrlResponse>("/auth/discord")
+    return r.data.url
 }
 
 export const login = (code: string) => client
@@ -61,15 +87,26 @@ export const login = (code: string) => client
 export async function logout(): Promise<void> {
     const currSession = getSession()
     if (currSession) {
-        client
+        const invalidateLocalSession = () => {
+            removeSessionFromStorage()
+            session = null
+        }
+
+        return client
             .post("/auth/logout", null, {
                 headers: {
                     "Authorization": `Bearer ${currSession.accessToken}`,
                 }
             })
-            .then(r => {
-                removeSessionFromStorage()
-                session = null
+            .then(invalidateLocalSession)
+            .catch(ex => {
+                if (ex.response?.status == 401) {
+                    invalidateLocalSession()
+                } else {
+                    throw ex;
+                }
             })
+    } else {
+        return;
     }
 }

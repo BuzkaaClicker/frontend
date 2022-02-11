@@ -57,7 +57,7 @@ const NavBar = () => {
 
     return (
         <Center>
-            <Box width="70%" maxWidth="77.5rem" height="8rem" padding="4rem 0rem 4rem 0rem" zIndex="100">
+            <Box width="80%" maxWidth="77.5rem" height="8rem" padding="4rem 0rem 4rem 0rem" zIndex="100">
                 <DesktopNavBar profile={profile} />
 
                 <MobileNavBar profile={profile} />

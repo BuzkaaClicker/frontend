@@ -2,20 +2,28 @@ import { Box, Container, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/reac
 import * as CSS from "csstype";
 
 type SectionProps = {
-    id: string;
+    id?: string;
     title: String;
     description: String;
+    small?: boolean;
     children?: JSX.Element | JSX.Element[];
 }
 
-export const Section = ({ id, title, description, children }: SectionProps) => (
+export const Section = ({ id, title, description, small, children }: SectionProps) => (
     <Box id={id} margin={5} width="100%">
         <Flex
             textAlign={{ base: "center", lg: "start" }}
             direction="column"
         >
-            <Heading>{title}</Heading>
-            <Text marginTop={3} variant="secondary" marginBottom="2rem">{description}</Text>
+            <Heading fontSize={small ? "1.5rem" : "2.25rem"}>{title}</Heading>
+            <Text
+                marginTop="0.5rem"
+                variant="secondary"
+                marginBottom={small ? "1rem" : "2rem"}
+                fontSize={small ? "1rem" : "1.25rem"}
+            >
+                {description}
+            </Text>
         </Flex>
         {children}
     </Box>
@@ -39,7 +47,7 @@ export const SectionCard = ({ minHeight, children }: SectionCardProps) => (
         <Flex
             gridColumnStart={1}
             gridRowStart={1}
-            padding={{base: "1.5rem 1.5rem 0 1.5rem", lg: "3.125rem 3.125rem 0 3.125rem"}}
+            padding={{ base: "1.5rem 1.5rem 0 1.5rem", lg: "3.125rem 3.125rem 0 3.125rem" }}
             direction="column"
             alignItems="center">
             {children}

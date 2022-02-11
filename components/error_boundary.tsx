@@ -1,13 +1,13 @@
 import React, { ErrorInfo } from "react";
 import { FullScreenDialog } from "./dialog";
-import { Text } from "@chakra-ui/react";
+import { Center, Flex, Link, Text, VStack } from "@chakra-ui/react";
 
 type ErrorBoundaryProps = {
     children?: JSX.Element | JSX.Element[];
 }
 
 type ErrorState = {
-    errorMessage?: string;
+    errorMessage?: string | JSX.Element;
 }
 
 export default class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorState> {
@@ -20,9 +20,13 @@ export default class ErrorBoundary extends React.Component<ErrorBoundaryProps, E
         return { errorMessage: ErrorBoundary.translateErrorMessage(error) };
     }
 
-    static translateErrorMessage(error: Error): string {
+    static translateErrorMessage(error: Error): string | JSX.Element {
         switch (error.message) {
             case "Network Error": return "Błąd połączenia z serwerem."
+            case "Request failed with status code 401": return (<Flex direction="column" alignItems="center">
+                <Text>Nie masz dostępu do tej strony będąc niezalogowanym!</Text>
+                <Link href="/auth/discord" alignSelf="center">Kliknij tutaj aby przejść do logowania.</Link>
+            </Flex>)
             default: return error.message
         }
     }

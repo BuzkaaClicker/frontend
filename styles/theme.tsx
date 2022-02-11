@@ -1,4 +1,13 @@
 import { extendTheme } from '@chakra-ui/react'
+import { css } from '@emotion/react';
+
+// source https://medium.com/@keeganfamouss/accessibility-on-demand-with-chakra-ui-and-focus-visible-19413b1bc6f9
+export const GlobalStyles = css`
+  .js-focus-visible :focus:not([data-focus-visible-added]) {
+     outline: none;
+     box-shadow: none;
+   }
+`;
 
 const theme = extendTheme({
   colors: {

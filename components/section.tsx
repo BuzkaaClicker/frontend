@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Container, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import * as CSS from "csstype";
 
 type SectionProps = {
@@ -9,8 +9,8 @@ type SectionProps = {
     children?: JSX.Element | JSX.Element[];
 }
 
-export const Section = ({ id, title, description, small, children }: SectionProps) => (
-    <Box id={id} margin={5} width="100%">
+export const Section = ({ id, title, description, small, children, ...boxProps }: SectionProps & BoxProps) => (
+    <Box id={id} margin={5} width="100%" {...boxProps}>
         <Flex
             textAlign={{ base: "center", lg: "start" }}
             direction="column"

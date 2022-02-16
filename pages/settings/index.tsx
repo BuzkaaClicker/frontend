@@ -14,11 +14,15 @@ const SettingsHome: NextPage = () => (
 
     <main>
       <Center paddingTop="4rem">
-        <Tabs variant="unstyled" w="80%" orientation="vertical" width="80%" maxWidth="77.5rem">
-          <Flex direction={{ base: "column", sm: "row" }} width="100%">
-            <VStack paddingRight="9.375rem">
+        <Tabs variant="unstyled" w="80%" orientation="vertical" width={{base: "95%", lg: "80%"}} maxWidth="77.5rem">
+          <Flex direction={{ base: "column", xl: "row" }} width="100%">
+            <VStack paddingRight={{ xl: "9.375rem" }}>
               <Heading fontSize="1.5rem" width="100%">Ustawienia</Heading>
-              <TabList paddingTop="3.43rem" width={{ base: "100%", sm: "10rem" }}>
+              <TabList
+                paddingTop={{ xl: "3.43rem" }}
+                paddingBottom={{ base: "2.43rem", xl: "0" }}
+                width={{ base: "100%", xl: "10rem" }}
+              >
                 <BTab>Konto</BTab>
                 <BTab>Bezpieczeństwo</BTab>
               </TabList>

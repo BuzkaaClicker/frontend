@@ -1,4 +1,13 @@
 import { extendTheme } from '@chakra-ui/react'
+import { css } from '@emotion/react';
+
+// source https://medium.com/@keeganfamouss/accessibility-on-demand-with-chakra-ui-and-focus-visible-19413b1bc6f9
+export const GlobalStyles = css`
+  .js-focus-visible :focus:not([data-focus-visible-added]) {
+     outline: none;
+     box-shadow: none;
+   }
+`;
 
 const theme = extendTheme({
   colors: {
@@ -67,6 +76,16 @@ const theme = extendTheme({
             transform: "translateY(-0.1em)"
           },
         },
+        "overlay": {
+          _focus: {
+            boxShadow: "0",
+            radius: "0",
+          },
+          _hover: {
+            color: "#AAA",
+            bg: "#111",
+          },
+        },
         "primary": {
           bg: "#3970C2",
           borderRadius: "0",
@@ -85,13 +104,28 @@ const theme = extendTheme({
             boxShadow: "0px 4px 0px #0000001C",
           },
         },
-        "discordLogin": {
+        "userMenu": {
           borderRadius: "8",
           bg: "#000",
           color: "#fff",
           fontWeight: "900",
           padding: "0.875rem 1.313rem 0.875rem 1.313rem",
-          textTransform: "uppercase",
+          letterSpacing: "-0.05rem",
+          _hover: {
+            bg: "#222222",
+            color: "#AAA",
+            transform: "translateY(-0.1em)"
+          },
+          _focus: {
+            boxShadow: "0px 4px 0px #0000001C",
+          },
+        },
+        "flat": {
+          borderRadius: "8",
+          bg: "#111",
+          color: "#fff",
+          fontWeight: "900",
+          padding: "0.875rem 1.313rem 0.875rem 1.313rem",
           letterSpacing: "-0.05rem",
           _hover: {
             bg: "#222222",
